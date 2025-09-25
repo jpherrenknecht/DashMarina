@@ -1,0 +1,42 @@
+{
+    "name": "BSP Dashboard 7.8",
+    "short_name": "BSP Dashboard",
+    "description": "Monitor boat position & call virtual sailor weather router",
+    "version": "7.8",
+    "manifest_version": 2,
+    "permissions": [
+        "debugger",
+        "tabs",
+        "storage",
+        "activeTab",
+		"declarativeContent",
+		"unlimitedStorage",
+        "http://team.bsp.free.fr/",
+        "http://*.zezo.org/*/chart.pl*",
+		"http://localhost:8081/nmea/*",
+		"http://localhost:8082/nmea/*",
+		"http://localhost:8083/nmea/*",
+		"http://localhost:8084/nmea/*"
+    ],
+    "content_security_policy": "script-src 'self' https://maps.googleapis.com/; object-src 'self'",
+    "background": {
+        "persistent": true,
+        "scripts": ["./js/background.js"]
+    },
+    "page_action": {
+        "default_icon": "./img/bsp_icon.png",
+        "default_title": "BSP Dashboard"
+    },
+	"content_scripts": [
+        {
+            "matches": ["https://www.virtualregatta.com/*"],
+            "js": ["./addResume.js"],
+            "run_at": "document_end",
+            "css":["./css/content.css"]
+        },
+        {
+            "css": ["./css/darkvr.css"],
+            "matches": ["https://www.virtualregatta.com/*"]
+        }
+    ]
+}

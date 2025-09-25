@@ -1,0 +1,265 @@
+==> Dashboard BSP
+Notes de versions :
+
+v7.8 (Phil)
+- correction des fautes dans pop-up twa/hdg
+- adaptation nelle version du jeu avec marina
+  * ajout des nelles options dans onglet RACE DATA
+
+v7.7 (Phil)
+- ajout du numéro du dernier TM chargé dans l'UI sur l'indication "NOAA Cycle :"
+- ajout de la colonne BRG dans onglet FLEET
+- réorganisation des fichiers dans divers dossiers
+- modif (jph) v7.61 intégrée
+
+v7.61 (jph)
+- ajout de l'envoie des données du bateau vers site : 'http://vrouteur.ddns.net/api/ajax'
+
+v7.6 (Ben/Manël)
+- ajout de nouveaux repaires (subdivisions de minutes) sur la ligne de projection.
+
+v7.5 (Phil)
+- ajout du routeur BitSailor (lancement avec paramètres et intégration csv dans MAP)
+- switch auto MAP lors de la connexion à une autre course
+
+v7.4 (Phil)
+- correction erreur si date non indiquée dans polar
+- correction erreur click course ouverte (pas de own track)
+- adaptation function handleResponseReceived (try, catch(e) ne fonctionne pas en asynchrone)
+- correction erreur récupération coeff stamina + maj boats.json
+- modification Zones d'exclusion si color absente
+
+v7.3 (Phil)
+- mise à jour SkippersBSP.csv
+- mise à jour teams.csv
+- mise à jour boats.json
+- changement delay par défaut de 0 à 1
+- mise en commentaire 'send mail' (fichier alerte_boat_bsp.php de Manël non récupérable)
+
+v7.1 / 7.2 (Aurel)
+- changement de la couleur de fond du mode dark
+- changement de l'icône z par bsp
+- suppression 'Calcul du TWA'
+- remplacement polaires.07mail.fr par blacksailingpolars.vrzen.org (départ Manël)
+
+v6.1.4 (Manël)
+- le fichier nmea.js est nettoyé de ce qui causait des erreurs à répétition
+- affichage des zones d'exclusion en plus de la zone des glaces
+
+v6.1.3 (Manël)
+- delay variable pour ne pas pénaliser les ordis rapides
+- Envoi la voile actuelle à Polaires07
+- VR-Zen public si INC est coché (mode dégradé)
+- lecture synchrone des paramètres du bateau > affichage immédiat
+
+v6.1.2 (Manël)
+- Fix pour les ordi trop lents = delay (merci Phil)
+- Remise en service des classments suive à VR v6.0.1
+
+v6.1.1 (Manël)
+- Liens auto vers le serveur BSP VR-Zen
+- Lien vers le GEFS
+- Remise en service des classments 
+
+v6.1.0 (Manël)
+- Adéquation avec la version 6.0.0 de VR sortie le 25 octobre 2023
+- Affichage du minidash dès le lancement d'une course
+- correction de l'erreur "Loading the Google Maps JavaScript API without a callback is not supported"
+
+v6.0.7 (Manël)
+- affichage sur la map du cap de sortie des WPs
+- Affichage d'une aide TWA / HDG pour optimiser les bestVMG
+- ajout du cycle météo actuel (merci Phil)
+
+v6.0.6 (Manël)
+- correction affichage de l'heure sur la ligne de projection
+- modification du nombre de décimales dans le popup de DTU
+- utilisation de nmea.js de ityc, pour transmettre la Stamina à Avalon (Merci Phil)
+- alerte "mauvaise voile" : après le premier déclenchement, elle reste silencieuse pendant 1 heure.
+
+v6.0.5 (Manël)
+- best VMG à 1 décimale, tant que VR autorisera les décimales ... (cadeau pour Ben)
+- import de 2 routes Avalon et 2 routes VR-Zen : a123.csv + aa123.csv + z123.csv + zz123.csv
+- correction d'un bug d'affichage quand HDG = 0 (merci Phil)
+- nouveau logo en fond de page
+
+v6.0.4 (Manël)
+- correction du boat_coeff pour le MOD70 dans boats.csv
+- correction des repères WP pour les longitudes > 100
+- affichage de la première ité dès le lancement du dash (merci Phil)
+- affichage de la date de mise à jour des polaires dans l'onglet résumé course
+
+v6.0.3 (Manël)
+- logo BSP détouré en mode light
+- ajout des caractéristiques de la course et du boat dans l'onglet RACE DATA (demande Pierrot)
+- ajout de l'azimuth du pointeur/ map du dash
+- mise à jour des 40 000 premiers skippers / teams (merci Pierrot)
+- réactivé l'affichage du classement (rank) dans l'onglet Fleet (demande Ben)
+
+v6.0.2 (Manël)
+- n'affiche plus Rank, Stamina et Options de l'onglet fleet, puisque VR ne les communique plus (demande Olivier)
+- utilise la stamina de mon boat et FP pour les calculs de routage des autres boats
+- auto routeurs : Zezo et/ou VR-Zen (demande Bat)
+
+v6.0.1 (Manël)
+- Correction de my_speed et my_heading pour le popup de DTU (demande Andy)
+- Alerte Stamina (demande Ben)
+- Correction du classement VSR team, ajout de la team dans le classo course, ajout de l'id du skipper (demande Scoub pour les calssements)
+- Ajout d'une grille sur la map du dash (quand on active la mire) pour aider à la poser des WPs
+
+v5.1.8 (Manël)
+- Amélioration de l'appel de Polaires07 avec les options (merci zecagou) et la stamina.
+	
+v5.1.7 (Manël)
+- bug fix : affichage WP (cassé depuis la v5.1.5)
+
+v5.1.6 (Manël)
+- ajout d'un onglet "Race Data" : vsr, cat, équipements, marques de parcours
+- ajout de la frégate dans l'onglet "fleet" pour router depuis sa position
+
+v5.1.5 (Manël)
+- ajout du boat MOD 70
+- pas d'alerte "hors VMG" si twa < 10
+- modification du popup des voiles pour un "recouvrement négatif" = 98,62% = 1/1.014% (aide au changement de voiles anticipé)
+- ajout de marques horodatées sur la projection 24h : 1,2,3... min, 10,20,30... min, 1,2,3... h
+- fin de toxcct, remplacé par Polaires-INC en backup de Polaires07
+
+v5.1.4 (Manël)
+- Alerte par Mail (optionnelle)
+- correction des temps / distances de manoeuvre (boatstaminacoeff compté au carré)
+
+v5.1.3 (Manël)
+- Correction de l'affichage des TWD sur les bateaux de la map
+- Modification du bouton "toxcct" : décoché il appelle les polaires07 ; coché il appelle toxcct
+- Suppression des icones de routage Zz quand zezo.org est HS (Cf bug Zz du 11 janvier), le routage VR-Zen reste disponible, la fleet et la map restent affichées. 
+
+v5.1.2 (Manël)
+- ajout de marques toutes les minutes et pendant 10 minutes sur la ligne de projection (hypothèse de cap et vitesse constants)
+- utilisation du mode "cap constant" = loxodromie pour tous les tracés (c'était précédemment en mode "géodésique" = orthodromie)
+- ajout de la direction du vent sur mon boat.
+- ajout du Volvo 65 dans le fichier boats.json (coefficient stamina = 1.2)
+- pour les polaires, appel de notre version (hébergée pour l'instant chez Manël) = toxcct modifié par FlyinPhil (recouvrement) et Manël (dark mode). Je laisse la coche "Toxcct HS" mais elle devient inutile puisqu'on a la main pour la création des courses. 
+
+v5.1.1 (Manël)
+- la ligne violette en travers de la route matérialise l'avance / retard au vent, dans une hypothèse de vent constant et uniforme. Si un boat est derrière la ligne, il est en retard sur moi ; s'il est devant, il est en avance.
+- au survol, chaque boat indique les conditions de vent (twd, tws) à sa position (en plus de cap, twa, vitesse)
+
+v5.1.0 (Manël)
+- à partir de la v5.0.7 de Michel, intégration des dernières courses (toxcct) et coefficients de stamina (boats) de la 5.0.8
+- diverses corrections (mineures) d'affichage
+
+v5.0.8 (Manël)
+- ajout coefficient de stamina pour les boats
+- complété le fichier boats.json	
+
+v5.0.7 (Michel)
+- Ajout patch défaillance de Toxcct
+- Correction de l'affichage de l'heure (RACELOG sur page VR : "Dernière commande")
+
+v5.0.6 (Manël)
+- Ajout twa de la vitesse maxi en dessous de twa Up / twa Down
+- Meilleur repérage de mon boat dans fleet
+- Réparé routage VR-Zen pour tous les bateaux de Fleet
+- Suppression des icones de RS sur la page du jeu
+- Modifications pour toutes les versions du jeu, en ou fr, iframe ou pas
+- id des courses Toxcct
+		
+v5.0.5
+- Poursuite du nettoyage du code
+- Conformité défis
+- Ajout "minidash" sur la page du jeu
+- Appel de toxcct : retour à 1 digit pour TWS 
+
+v5.0.4
+- Ajout du routage VR-Zen pour tous les bateaux de Fleet
+- Ajout du cap pour les WP, permet notamment de connaître le HDG de sortie 
+- 'opponents' désactivés lors de l'appel de la map (évite d'avoir trop de boats)
+- Appel de toxcct : 2 digits pour TWS 
+
+v5.0.3
+- Suite à la migration de VR, récupération des données mise en adéquation avec la version officielle (v3.20.0),
+- Récupération des données des classements par le protocole XHR,
+- Ajout du classement "Season",
+- Déplacements de fonctions "date et heure" dans les fichiers util.js ou perso.js
+- Suppression de fonctions inutiles,
+- Correction de quelques bugs.
+
+
+v5.0.2
+- Affichage du nom du bateau au chargement du jeu
+- Modification de l'affichage du cycle NOAA
+- Affichage du classement 'rank' (r.curr.rank)
+
+v5.0.1
+- récupération des polaires et autres infos dans les requêtes XHR 'LogEventRequest', et remise en service des calculs basés sur les polaires.
+
+v5.0.0
+- adaptation du dash (suppression des calculs de VMG, recouvrement, ...) suite à la migration de VR : les polaires ne sont plus dans le WS // Michel //
+- ajout de tests sur l'échouement ou le hors VMG des autres bateaux de la team, alerte en rouge sur le nom de la course + dans l'onglet 'Fleet'
+
+v4.2.10 
+- affichage des données de projection dans DTU : gisement, vitesse projetée
+
+v4.2.9
+- cuvre autant de fenêtre VR-Zen et La Sardine que de course
+	
+v4.2.8
+- retour à l'appel des polaires pour les courses actuelles
+
+v4.2.6 et v4.2.7
+- en l'absence de toxcct, appel des polaires des courses précédentes
+- course non active = fond gris pour la synthèse
+
+v4.2.5
+- passage des paramètres course, lat, lon, HDG, voile et stamina pour l'appel de VR-Zen
+- heure du race log = hh:mm si ss=0, hh:mm:ss sinon (pour garder l'affichage de l'heure d'arrivée)
+- curseur de la map VR-Zen = flèche (plus précis pour poser une étape)
+
+v4.2.4
+- intégration dans le status line du bouton d'appel paramétrique de ityc.fr
+
+v4.2.3.2
+- au survol, repèrage de la ligne complète d'un boat (onglet fleet)
+
+v4.2.3.1
+- correctif : affichage course pas démarrée (#div/0!)
+
+v4.2.3
+- calcul des limites de reconvrement en tws et twa (expérimental)
+- affichage des voiles "juste derrière" la voile actuelle
+
+v4.2.2
+- Calcul du temps de manoeuvre avec stamina
+- Calcul de la perte / récupération d'énergie
+- tri sur la colonne 'stamina' de 'fleet'
+- Correction des background sur les cellules 'manoeuvre' dans le 'log(me)'
+- Suppression des valeurs de vmg dans 'best vmg', pour gagner un peu de place
+- coorection de bug : affichage des routages sur la map
+
+v4.2.1
+- mode sombre avec 2 fichiers css différents, et bouton de sélection. A noter : la map peut aussi être sombre ou pas, avec le bouton sur la carte 
+- nettoyage des styles dans le .html et partiellement dans le .js
+- condition de background pour la navigation hors-VMG
+- condition de background pour l'expriration voiles manuelles
+- correction des couleurs des bateaux sur la map, en cohérence avec la couleur des puces des boutons et de la liste.
+- correction du background du boost
+- ligne de projection du cap actuel (HDG) pour les prochaines 24 heures
+- Suppression du mode nuit pour zezo (on peut changer la couleur du fond et des boutons dans le fichier darkzezo.css)
+- Ajout de la stamina pour mon boat, et pour les bateaux sélectionnés.
+
+v4.1.6
+- intégration du mode VR-dark et suppression des icones de RS
+- intégration du mode Zezo-dark 
+- bascule sombre / light avec curseur : action immédiate
+- carte sombre / light : OSM / Terrain / Satellite
+
+v4.1.5
+Modifié par Manël
+- modification des couleurs (dark) par style.css pour le dash
+- dark map (en dur dans le .js)
+- ajout dans la barre de 'status' des liens vers VR-Zen (url/course/position) et vers LaSardine (url), icônes des 2 routeurs. c'est les fonctions callRZen et callSard qui calculent l'url complet
+- ajout dans l'onglet 'race log' de la colonne boost% + background-color contitionnel. le boost% est calculé avec la meilleur voile possible dans la fonction theoreticalSpeed
+- affichage boost 2 décimales (3 si +1 digit est coché)
+
+Versions antérieures développées par Michel & co
+v4.1.4

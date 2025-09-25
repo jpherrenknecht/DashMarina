@@ -1,0 +1,98 @@
+var boatsInf = {
+    "Figaro III":{
+        "label":  "Figaro III",
+        "polar_id": "2",
+        "race_id": "538.1",
+		"coeff_sta": "1"
+    },
+    "Class 40":{
+        "label": "Class 40",
+        "polar_id": "3",
+        "race_id": "512.2",
+		"coeff_sta": "1"	
+    },
+    "Imoca":{
+        "label": "Imoca",
+        "polar_id": "4",
+        "race_id": "513.1",
+		"coeff_sta": "1.2"
+    },
+    "Mini 6.50":{
+        "label": "Mini 6.50",
+        "polar_id": "5",
+        "race_id": "526.2",
+		"coeff_sta": "1"
+    },
+    "Ultim Solo":{
+        "label": "Ultim Solo",
+        "polar_id": "6",
+        "race_id": "549.1",
+		"coeff_sta": "1.5"
+    },
+    "Volvo 65":{
+        "label": "Volvo 65",
+        "polar_id": "7",
+        "race_id": "574.1",
+		"coeff_sta": "1.2"
+    },
+    "Ultim Crew":{
+        "label": "Ultim Crew",
+        "polar_id": "9",
+        "race_id": "550.1",
+		"coeff_sta": "1.5"
+    },
+    "Olympus":{
+        "label": "Olympus",
+        "polar_id": "10",
+        "race_id": "481.1",
+		"coeff_sta": "1.5"
+    },
+    "Ocean Fifty":{
+        "label": "Ocean Fifty",
+        "polar_id": "11",
+        "race_id": "553.1",
+		"coeff_sta": "1"
+    },
+    "Caravel":{
+        "label": "Caravel",
+        "polar_id": "13",
+        "race_id": "522.1",
+		"coeff_sta": "2"
+    },
+    "Super Maxi 100":{
+        "label": "Super Maxi 100",
+        "polar_id": "14",
+        "race_id": "536.2",
+		"coeff_sta": "1.5"
+    },
+    "Tara":{
+        "label": "Tara",
+        "polar_id": "16",
+        "race_id": "470.11",
+		"coeff_sta": "2"
+    },
+    "Offshore Racer":{
+        "label": "Offshore Racer",
+        "polar_id": "18",
+        "race_id": "552.1",
+		"coeff_sta": "1"
+    },
+    "MOD 70":{
+        "label": "Mod 70",
+        "polar_id": "19",
+        "race_id": "587.1",
+		"coeff_sta": "1.2"
+    },
+    "Cruiser Racer":{
+        "label": "Cruiser Racer",
+        "polar_id": "20",
+        "race_id": "595.1",
+		"coeff_sta": "1"
+    },
+    "Ultim BP XI":{
+        "label": "Ultim BP XI",
+        "polar_id": "21",
+        "race_id": "630.1",
+		"coeff_sta": "1.5"
+    }
+};

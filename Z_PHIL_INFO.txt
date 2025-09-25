@@ -1,0 +1,34 @@
+===> Suivi des modifications version 7.8 (nouvelle version du jeu avec marina) :
+
+Origine version 7.7 avec modifications :
+
+js/dashboard.js
+===============
+
+Maj lancement ITYC avec nouvelles options
+
+Modification des fonctions 'manoeuveringPenalties' et 'penalty' pour prise compte nouvelles options
+
+Ajout des nouvelles options dans onglet RACE DATA (comfortLoungePug magicFurler vrtexJacket) et suppression (skin)
+
+Le pavé lignes 421-439 (// tooltip twa / tws) a été corrigé de ses fautes
+
+
+Pour tester la version beta du jeu ajouts des lignes :
+ (lignes 6025 6027 6029 avec dev.vro et .devel.)
+ Fichier sans ces 3 lignes : js/dashboard - Copie.js (ne pas utiliser, n'aura pas les modifs pour 7.8)
+
+listener.js
+===========
+
+Pour tester la version beta du jeu ajouts des lignes :
+ (lignes 129 131 133 avec dev.vro et .devel.)
+ Fichier sans ces 3 lignes : listener - Copie.js
+
+
+
+***** ====> Voir pour l'appeler version 8.0 pour distribution *****
+      !!!! il faut modifier le lien ligne 3414 (enlever marina.htm) et aussi les lignes pour beta.
+      !!!! Le calcul de récup de stamina (NRJ si diff. de 100) n'est pas à jour des nelles options !!!!!
+
+

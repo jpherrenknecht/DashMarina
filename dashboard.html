@@ -1,0 +1,407 @@
+<!--
+    Copyright (c) 2012 The Chromium Authors. All rights reserved.
+    Use of this source code is governed by a BSD-style license that can be
+    found in the LICENSE file.
+ -->
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>BSP Dash Marina</title>
+		<link rel="stylesheet" type="text/css" href="./css/style-dark.css"> 
+		<link rel="stylesheet" href="css/leaflet.css" />
+        <script src="js/leaflet.js"></script>
+		<script src="js/leaflet.curve.js"></script>
+        <script src="js/leaflet.arc.js"></script>
+        <script src="js/vrouteur.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/npyjs@0.5.3/dist/npyjs.min.js"></script>
+		<!-- <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" /> -->
+		<link rel="icon" href="./img/bsp_icon.png">
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6bZY8_KuFSGpU5CybugndmQmbFM4fLuU&callback=Function.prototype"></script>	
+
+        <script src="./js/zezoscript.js"></script>
+		<script src="./js/adresse_mail_pour_alerte.js"></script>
+		<script src="./data/boats.json"></script>
+        <script type="module" src="./js/dashboard.js"></script>
+		<!-- <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script> -->
+
+		<!-- <style>
+		.tooltip-bateau {
+		font-size: 16px;
+		line-height: 1.4;
+		}
+		</style> -->
+		
+    </head>
+
+<body>
+<div class="container">
+	<!-- règlages généraux -->
+    <div class="top">
+        <div class="flexrow">
+			<div>
+                <label><b>Boat : </b></label>
+                <label id="lb_boatname">-</label>
+                <label> | Sel.Race</label>
+                <select id="sel_race" name="race"></select>
+                <button id="bt_router">Go</button>
+                (<label id="lb_boattype"></label>)
+				<br>
+				<label>NOAA Cycle : </label>
+                <label id="lb_cycle">-</label>
+            </div>
+
+            <div>
+                <input type="checkbox" id="2digits" checked>
+                <label>+1 digit | </label>
+                <input type="checkbox" id="auto_router" checked>
+                <label>Auto Zezo | </label>
+                 <input type="checkbox" id="zen_router" checked>
+                <label>Auto VR-Zen | </label>           
+                <div style="display:none;">
+				    <input type="checkbox" id="reuse_tab" checked>
+				    <label>Reuse tabs | </label>
+                </div>
+                <input type="checkbox" id="markers">
+                <label>Show track | </label>
+				<input type="checkbox" id="vrouteurcb">
+                <label>Vrouteur</label>
+                <br>
+				<input type="checkbox" id="local_time" checked>
+                <label>Local times | </label>
+                <input type="checkbox" id="nmea_output">
+                <label> NMEA port : </label>
+                <select id="sel_nmeaport" name="nmeaport">
+                    <option value="8081">8081</option>
+                    <option value="8082">8082</option>
+                    <option value="8083">8083</option>
+					<option value="8084">8084</option>
+                </select>			
+                <label> | </label>				
+                <label> Délai(s) : </label>
+                <select id="sel_waitdelay" name="waitdelay">
+                    <option value="1">1</option>
+                    <option value="0">0</option>
+                    <option value="2">2</option>
+					<option value="3">3</option>
+                </select>			
+                <label> | </label>		
+                <input type="checkbox" id="bsp_down">
+                <label>BSP Down</label>
+            </div>
+            <div>    
+                <label class="version">Dark </label>
+                <label class="switch"> 
+                    <input type="checkbox" id="auto_dark" checked>
+                    <span class="slider round"></span>
+                </label>
+				<label id="sel_gefs"></label>
+				<br>
+                <label class="version">Version : </label>
+                <label class="version" id="lb_version"></label>
+            </div>
+        </div>
+	</div>
+	
+	<!-- tableau de bord et tabs -->
+	<div>
+		<!-- tableau de bord instantanné -->
+		<div id="raceStatus"></div>
+	
+		<!-- Tabs de sélection des écrans -->
+		<ul class="tabs">
+			<li class="tab">
+				<input type="radio" name="tabs" checked="checked" id="ts:1"/>
+				<label for="ts:1">Race Log</label>
+			</li>
+			<li class="tab">
+				<input type="radio" name="tabs" id="ts:2"/>
+				<label for="ts:2">Fleet</label>
+			</li>
+			<li class="tab">
+				<input type="radio" name="tabs" id="ts:4"/>
+				<label for="ts:4">Map</label>
+			</li>
+			<li class="tab">
+				<input type="radio" name="tabs" id="ts:5"/>
+				<label for="ts:5">Waypoints</label>
+			</li>
+			<li class="tab">
+				<input type="radio" name="tabs" id="ts:6"/>
+				<label for="ts:6">Ranking</label>
+			</li>
+			<li class="tab">
+				<input type="radio" name="tabs" id="ts:7"/>
+				<label for="ts:7">Notif.</label>
+			</li>
+			<li class="tab">
+				<input type="radio" name="tabs" id="ts:8"/>
+				<label for="ts:8" id="t_resume">Race Data</label>
+			</li>
+			<li class="tab">
+				<input type="radio" name="tabs" id="ts:3"/>
+				<label for="ts:3">Raw Log</label>
+			</li>
+
+            <li class="tab">
+				<input type="radio" name="tabs" id="ts:9"/>
+				<label for="ts:9">Vrouteur</label>
+			</li>
+
+
+
+		</ul>
+
+		<!-- tabs -->
+		<div align="center">	
+			<!-- tabs de sélection des bateaux -->
+			<fieldset class="fieldset" id="sel_skippers" align="left">
+				<legend>Filters</legend>
+				<ul class="tab2">
+					<li class="tab">
+						<input type="checkbox" id="sel_team" name="checkbox1" class="content hidden" checked>
+						<label for:"sel_team" id="lbl_team"><span>&#x2B24;</span>&nbsp;Team</label>
+					</li>
+					<li class="tab">
+						<input type="checkbox" id="sel_friends" name="checkbox2" class="content hidden" checked>
+						<label for:"sel_friends" id="lbl_friends"><span>&#x2B24;</span>&nbsp;Friends</label>
+					</li>
+					<li class="tab">
+						<input type="checkbox" id="sel_top" name="checkbox3" class="content hidden" checked>
+						<label for:"sel_top" id="lbl_top"><span style="color:GoldenRod;">&#x2B24;</span>&nbsp;Top VSR</label>
+					</li>
+					<li class="tab">
+						<input type="checkbox" id="sel_sponsors" name="checkbox4" class="content hidden">
+						<label for:"sel_sponsors" id="lbl_sponsors"><span>&#x2B24;</span>&nbsp;Sponsors</label>
+					</li>
+					<li class="tab">
+						<input type="checkbox" id="sel_certified" name="checkbox5" class="content hidden">
+						<label for:"sel_certified" id="lbl_certified"><span>&#x2B24;</span>&nbsp;Certified</label>
+					</li>
+					<li class="tab">
+						<input type="checkbox" id="sel_opponents" name="checkbox6" class="content hidden" checked>
+						<label for:"sel_opponents" id="lbl_opponents"><span>&#x2B24;</span>&nbsp;Opponents</label>
+					</li>
+					<li class="tab">
+						<input type="checkbox" id="sel_reals" name="checkbox7" class="content hidden">
+						<label for:"sel_reals" id="lbl_reals"><span>&#x2B24;</span>&nbsp;Reals</label>
+					</li>
+					<li class="tab">
+						<input type="checkbox" id="sel_selected" name="checkbox8" class="content hidden" checked>
+						<label for:"sel_selected" id="lbl_selected"><span>&#x2B24;</span>&nbsp;Selected</label>
+					</li>
+					<li class="tab">
+						<input type="checkbox" id="sel_inrace" name="checkbox9" class="content hidden">
+						<label for:"sel_inrace" id="lbl_inrace">Racing</label>
+					</li>
+				</ul>
+			</fieldset>
+			&nbsp;
+
+			<!-- tabs de sélection des classements -->
+			<fieldset class="fieldset" id="sel_ranking" style="position:absolute; left:700px">
+				<legend id="lb_legname">Classements et listes</legend>
+				<ul class="tab2">
+					<li class="tab">
+						<input type="radio" id="sel_VSR" name="ranking" class="content hidden">
+						<label for:"sel_VSR" id="lbl_VSR">VSR</label>
+					</li>
+					<li class="tab">
+						<input type="radio" id="sel_HOF" name="ranking" class="content hidden">
+						<label for:"sel_HOF" id="lbl_HOF">VSR Teams</label>
+					</li>
+					<li class="tab">
+						<input type="radio" id="sel_Season" name="ranking" class="content hidden">
+						<label for:"sel_Season" id="lbl_Season">VSR Season</label>
+					</li>
+					<li class="tab">
+						&nbsp;|&nbsp;
+					</li>
+					<li class="tab">
+						<input type="radio" id="sel_Races" name="ranking" class="content hidden">
+						<label for:"sel_Races" id="lbl_Races">Race</label>
+					</li>
+					<li class="tab">
+						<input type="radio" id="sel_HOFRace" name="ranking" class="content hidden">
+						<label for:"sel_HOFRace" id="lbl_HOFRace">Race Teams</label>
+					</li>
+					<li class="tab">
+						&nbsp;|&nbsp;	
+					</li>
+                    <li class="tab">
+						<input type="radio" id="sel_Teams" name="ranking" class="content hidden">
+						<label for:"sel_Teams" id="lbl_Teams">Team List</label>
+					</li>
+					<li class="tab">
+						<input type="radio" id="sel_TeamMb" name="ranking" class="content hidden">
+						<label for:"sel_TeamMb" id="lbl_TeamMb">Team Members</label>
+					</li>
+					<!--
+                    <li class="tab">
+						<input type="radio" id="sel_Selected" name="ranking" class="content hidden">
+						<label for:"sel_Selected" id="lbl_Selected">Selected fleet</label>
+					</li>
+                    -->
+				</ul>
+			</fieldset>            
+		</div>
+	</div>
+
+    <!-- affichage du log individuel -->
+	<div id="tab-content1" class="content">
+        <div id="recordlog"></div>
+    </div>
+
+    <!-- affichage du tableau des bateaux -->	
+    <div id="tab-content2" class="content hidden">
+        <div id="friendList"></div>
+    </div>
+
+    <!-- affichage du raw log -->	
+    <div id="tab-content3" class="content hidden">
+        <input type="checkbox" id="cb_rawlog">
+        <label>Log messages</label>
+        <button id="bt_clear">Clear log</button>
+        <div style="white-space: pre;" id="rawlog"></div>
+    </div>
+
+    <!-- affichage du sélecteur de zone de pixels et de l'import routage -->	
+    <div id="tab-content4" class="content hidden">
+		<div name="blockmz" class="kmzbox">
+            <legend class="text1">Select pixels :&nbsp;</legend>
+            <select id="sel_blockmz" name="blockmz" class="text2">
+                <option value="">---</option>
+                <option value="1-Europe du Nord et Groenland">Europe Nord et Groenland</option>
+                <option value="2-Europe et Méditerranée">Europe et Méditerranée</option>
+                <option value="3-Atlantique Nord">Atlantique Nord</option>
+                <option value="4-Atlantique Sud">Atlantique Sud</option>
+                <option value="5-Antarctique (Longitude Horn)">Antarctique (Longitude Horn)</option>
+                <option value="6-Antarctique (Longitude Agulhas)">Antarctique (Longitude Agulhas)</option>
+                <option value="7-Indien Ouest (Mer Rouge - Oman)">Indien Ouest (Mer Rouge - Oman)</option>
+                <option value="8-Australie et Nouvelle-Zéland">Australie et Nouvelle-Zéland</option>
+                <option value="9-Océanie et Asie du Sud-Est">Océanie et Asie du Sud-Est</option>
+                <option value="10-Pacifique Nord et Ouest">Pacifique Nord et Ouest</option>
+                <option value="11-Pacifique Nord et Est">Pacifique Nord et Est</option>
+                <option value="12-Pacifique Sud (îles)">Pacifique Sud (îles)</option>
+                <option value="13-Pacifique Sud-Est">Pacifique Sud-Est</option>
+                <option value="14-Antarctique (Australie-Pacifique)">Antarctique (Australie-Pacifique)</option>
+                <option value="15-Arctique (Canada)">Arctique (Canada)</option>
+                <option value="16-Arctique (Sibérie)">Arctique (Sibérie)</option>
+            </select>
+            <button id="bt_map">&#127757;</button>
+		</div>    
+
+        <div id="sel_importRoute" name="blockmz" class="routing">
+            <!-- tabs de sélection des routes importées -->
+			<legend class="text1">Import routage</legend>
+			<ul class="tab2">
+				<li class="tab">
+					<input type="button" id="sel_importZezo" name="button1" class="content hidden">
+					<label for:"sel_importRZ" id="lbl_importZezo"><span>&#x2B24;</span>&nbsp;Zezo</label>
+				</li>
+				<li class="tab">
+					<input type="button" id="sel_importAvalon" name="button2" class="content hidden">
+					<label for:"sel_importAVL" id="lbl_importAvalon"><span>&#x2B24;</span>&nbsp;Avalon</label>
+				</li>
+				<li class="tab">
+					<input type="button" id="sel_importAvalon2" name="button3" class="content hidden">
+					<label for:"sel_importAVL2" id="lbl_importAvalon2"><span>&#x2B24;</span>&nbsp;Avalon2</label>
+				</li>
+				<li class="tab">
+					<input type="button" id="sel_importVRZen" name="button4" class="content hidden">
+					<label for:"sel_importZEN" id="lbl_importVRZen"><span>&#x2B24;</span>&nbsp;VR Zen</label>
+				</li>
+				<li class="tab">
+					<input type="button" id="sel_importVRZen2" name="button5" class="content hidden">
+					<label for:"sel_importZEN2" id="lbl_importVRZen2"><span>&#x2B24;</span>&nbsp;VR Zen2</label>
+				</li>
+				<li class="tab">
+					<input type="button" id="sel_importLasardine" name="button6" class="content hidden">
+					<label for:"sel_importSAR" id="lbl_importLasardine"><span>&#x2B24;</span>&nbsp;La Sardine</label>
+				</li>
+				<li class="tab">
+					<input type="button" id="sel_importBitSailor" name="button7" class="content hidden">
+					<label for:"sel_importBTS" id="lbl_importBitSailor"><span>&#x2B24;</span>&nbsp;BitSailor</label>
+				</li>
+				<li class="tab">
+					&nbsp;|&nbsp;
+				</li>
+				<li class="tab">
+					<input type="button" id="sel_delete" name="button8" class="content hidden">
+					<label for:"sel_delete" id="lbl_delete">Delete</label>
+				</li>
+			</ul>
+
+        </div>
+        
+    </div>
+
+    <!-- affichage des waypoints -->	
+    <div id="tab-content5" class="content hidden">
+        <div id="waypoints"></div>
+    </div>
+
+    <!-- affichage des classements -->	
+    <div id="tab-content6" class="content hidden">
+        <div id="VRRanking"></div>
+    </div>
+
+    <!-- affichage du résumé -->	
+    <div id="tab-content8" class="content hidden">
+        <div id="raceBook"></div>
+    </div>
+	
+	  <!-- affichage de Vrouteur -->	
+    <div id="tab-content9" class="content hidden">
+        <div id="Vrouteur" class="Vrouteur">Test1</div>
+
+
+
+
+    </div>
+
+
+
+    <!-- affichage des notifications -->	
+    <div id="tab-content7" class="content hidden">
+        <div class="shadowbox" style="margin-top:50px;">
+            <h3>Notifications et rappels</h3>
+            <p>Sélectionner une course : <select id="sel_raceNotif" name="raceNotif" class="notif">
+                <option>---</option>                
+                </select>
+			</p>
+            <p>Créer une notification :</p>
+            <select id="sel_type1Notif" name="twa" class="notif">
+                <option>---</option>
+                <option>TWA</option>
+                <option>HDG</option>
+                <option>TWS</option>
+                <option>TWD</option>
+                <option>Stamina</option>
+			</select>
+            <select id="sel_type2Notif" name="type" class="notif">
+                <option>---</option>
+                <option>inférieur ou égal</option>
+                <option>supérieur ou égal</option>
+            </select>
+            <label class="notif">à</label>
+            <input type="number" min="0" max="360" id="sel_valNotif" name="choice" class="notif" style="width:50px">(1 décimale).<br>
+            <p>ou un rappel :</p>
+            <p>M'envoyer un rappel dans
+            <input type="number" id="sel_minuteNotif" name="minute" min="10" max="900" step="5" class="notif" style="width:50px"> minutes.
+            &nbsp;
+            <button id="bt_notif" style="font-size:14px">Créer</button>
+        </div>
+        <div class="box2" style="margin-top:100px;" id="notif"></div>
+    </div>
+	
+</div>
+</body>
+</html>
+
+
+
+
+
+
+

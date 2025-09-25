@@ -1,0 +1,16 @@
+==> Importation d'une route d'un routeur externe dans l'onglet MAP :
+
+
+- Zezo : automatique
+
+- Avalon : Récupérer le csv de la course, le renommer et le copier dans le dossier "routes" du dash, puis recharger l'extension.
+           2 routes possibles a???.csv et aa???.csv (??? = numéro de la course)
+
+- VR Zen : Récupérer le csv de la course, le renommer et le copier dans le dossier "routes" du dash, puis recharger l'extension.
+           2 routes possibles z???.csv et zz???.csv (??? = numéro de la course)
+
+- La Sardine : Récupérer le csv de la course, le renommer et le copier dans le dossier "routes" du dash, puis recharger l'extension.
+              1 route possible s???.csv (??? = numéro de la course)
+
+- BitSailor : Récupérer le csv de la course, le renommer et le copier dans le dossier "routes" du dash, puis recharger l'extension.
+              1 route possible b???.csv (??? = numéro de la course)
